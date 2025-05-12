@@ -9,14 +9,14 @@
   {% include 'base/style.html' %}
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
+<div class="login-box" style="width: 550px;">
   <div class="login-logo">
     <a href="/"><b>Crisis Relief</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Sign up to start your session</p>
 
       <form method="post">
         {% csrf_token %}
@@ -26,18 +26,13 @@
         <div class="row">
           <!-- /.col -->
           <div class="col-4 my-2">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
           </div>
           <!-- /.col -->
         </div>
       </form>
-<!-- 
-
-      <p class="mb-1">
-        <a href="/">I forgot my password</a>
-      </p> -->
       <p class="mb-0">
-        <a href="{% url 'core:signup' %}" class="text-center">Register a new membership</a>
+        <a href="{% url 'core:login' %}" class="text-center">Already have account</a>
       </p>
     </div>
     <!-- /.login-card-body -->

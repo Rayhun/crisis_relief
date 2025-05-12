@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
 
-    
-    'core'
+    # Custom apps
+    'core',
+    'Affected',
 ]
 
 # Crispy forms template pack
@@ -62,6 +63,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'crisis_relief.urls'
+
+# Custom user model
+AUTH_USER_MODEL = 'core.User'
+
+LOGIN_URL = 'core:login'  # Since you're using app_name='core'
+LOGIN_REDIRECT_URL = 'core:dashboard'  # Where to redirect after login
+LOGOUT_REDIRECT_URL = 'core:login'  # Where to redirect after logout
 
 TEMPLATES = [
     {

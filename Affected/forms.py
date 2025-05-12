@@ -1,10 +1,10 @@
 from django import forms
-from core.models import Offer
+from Affected.models import ReliefRequest
 
 
-class OfferForm(forms.ModelForm):
+class RequestForm(forms.ModelForm):
     class Meta:
-        model = Offer
+        model = ReliefRequest
         fields = ['title', 'description', 'category', 'location', 'status']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
