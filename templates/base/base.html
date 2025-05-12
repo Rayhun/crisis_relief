@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crisis Relief Coordination Platform</title>
+    {% include 'base/style.html' %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            {% include 'base/sidebar.html' %}
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                {% block content %}
+                {% endblock %}
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- Footer -->
+        {% include 'base/footer.html' %}
+
+    </div>
+    <!-- ./wrapper -->
+
+    {% include 'base/script.html' %}
+</body>
+
+</html>
