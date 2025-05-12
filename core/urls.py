@@ -6,6 +6,8 @@ app_name = 'core'
 
 urlpatterns = [
     path('', dashboard.DashboardView.as_view(), name='dashboard'),
+    path('albania-map/', dashboard.AlbaniaMapView.as_view(),
+         name='albania_map'),
     path('login/', auth.CustomLoginView.as_view(), name='login'),
     path('signup/', auth.SignupView.as_view(), name='signup'),
 ]
