@@ -1,0 +1,44 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-8">
+            <h3 class="card-title">Event Detail</h3>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{% url 'affected:event_edit' event.id %}" class="btn btn-warning">Edit Event</a>
+            <a href="{% url 'affected:event_delete' event.id %}" class="btn btn-danger">Delete Event</a>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ event.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Location:</strong> {{ event.location }}</p>
+                    <p><strong>Date:</strong> {{ event.date }}</p>
+                    <p><strong>Radius:</strong> {{ event.radius }}</p>
+                    <p><strong>Affected People:</strong> {{ event.affected_people }}</p>
+                    <p><strong>Status:</strong>
+                        {% if event.status == 'open' %}
+                        <span class="badge badge-success">Open</span>
+                        {% elif event.status == 'closed' %}
+                        <span class="badge badge-danger">Closed</span>
+                        {% elif event.status == 'in_progress' %}
+                        <span class="badge badge-warning">In Progress</span>
+                        {% else %}
+                        <span class="badge badge-secondary">Unknown</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Description:</strong> {{ event.description|safe }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'affected:event_list' %}" class="btn btn-secondary">Back to Event List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

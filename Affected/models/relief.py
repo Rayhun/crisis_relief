@@ -21,11 +21,13 @@ STATUS_CHOICES = [
 class ReliefRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(
-        'Event', on_delete=models.CASCADE, related_name='relief_requests'
+        'Event', on_delete=models.CASCADE, related_name='relief_requests',
+        null=True
     )
     title = models.CharField(max_length=100)
     description = models.TextField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    quantity = models.PositiveIntegerField(default=1)
     location = models.CharField(max_length=100)
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='open'

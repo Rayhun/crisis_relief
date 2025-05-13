@@ -1,0 +1,50 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-8">
+            <h3 class="card-title">Relief Request Detail</h3>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{% url 'affected:relief_request_edit' relief_request.id %}" class="btn btn-warning">Edit Relief Request</a>
+            <a href="{% url 'affected:relief_request_delete' relief_request.id %}" class="btn btn-danger">Delete Relief Request</a>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ relief_request.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Event:</strong> {{ relief_request.event.title }}</p>
+                    <p><strong>Location:</strong> {{ relief_request.event.location }}</p>
+                    <p><strong>Date:</strong> {{ relief_request.event.date }}</p>
+                    <p><strong>Radius:</strong> {{ relief_request.event.radius }}</p>
+                    <p><strong>Affected People:</strong> {{ relief_request.event.affected_people }}</p>
+                    <p><strong>Status:</strong>
+                        {% if relief_request.status == 'open' %}
+                        <span class="badge badge-success">Open</span>
+                        {% elif relief_request.status == 'closed' %}
+                        <span class="badge badge-danger">Closed</span>
+                        {% elif relief_request.status == 'in_progress' %}
+                        <span class="badge badge-warning">In Progress</span>
+                        {% else %}
+                        <span class="badge badge-secondary">Unknown</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Description:</strong> {{ relief_request.description|safe }}</p>
+                    <p><strong>Relief Type:</strong> {{ relief_request.category }}</p>
+                    <p><strong>Quantity:</strong> {{ relief_request.quantity }}</p>
+                    <p><strong>Requested By:</strong> {{ relief_request.user }}</p>
+                    <p><strong>Contact Number:</strong> {{ relief_request.user.phone_number }}</p>
+                    <p><strong>Address:</strong> {{ relief_request.user.address }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'affected:relief_request_list' %}" class="btn btn-secondary">Back to Relief Request List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
