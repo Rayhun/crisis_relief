@@ -1,6 +1,6 @@
 # core/urls.py
 from django.urls import path
-from .views import dashboard, auth
+from .views import dashboard, auth, user
 
 app_name = 'core'
 
@@ -10,4 +10,6 @@ urlpatterns = [
          name='albania_map'),
     path('login/', auth.CustomLoginView.as_view(), name='login'),
     path('signup/', auth.SignupView.as_view(), name='signup'),
+
+    path('user/list/', user.UserListView.as_view(), name='user_list'),
 ]

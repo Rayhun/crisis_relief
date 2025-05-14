@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Custom apps
     'core',
     'Affected',
+    'Task',
 ]
 
 # Crispy forms template pack

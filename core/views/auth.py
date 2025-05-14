@@ -12,7 +12,7 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         """Handle the 'next' parameter for redirection"""
-        return self.request.GET.get('next', reverse_lazy('dashboard'))
+        return self.request.GET.get('next', reverse_lazy('core:dashboard'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -23,7 +23,7 @@ class CustomLoginView(LoginView):
 class SignupView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'auth/signup.html'
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('core:dashboard')
 
     def form_valid(self, form):
         """Automatically log in the user after signup"""
