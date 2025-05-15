@@ -1,8 +1,10 @@
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView,
                                   DeleteView)
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Task, TaskComment
+from Affected.models import ReliefRequest
 from core.models import User
 
 
@@ -25,15 +27,18 @@ class TaskListView(LoginRequiredMixin, ListView):
         return context
 
 
-# class TaskDetailView(LoginRequiredMixin, DetailView):
-#     model = Task
-#     template_name = 'task/task_detail.html'
-#     context_object_name = 'task'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         task = self.get_object()
-#         context['task'] = task
-#         context['comments'] = TaskComment.objects.filter(task=task)
-#         context['comment_count'] = context['comments'].count()
-#         context['comment_form'] = TaskCommentForm()
+def task_self_assign(request, pk):
+    try:
+        relief_request = ReliefRequest.objects.get(pk=pk, status='open')
+    except Exception as e:
+        print(e)
+        return redirect('task:task_list', pk=request.user.pk)
+    Task.objects.create(
+        user=request.user,
+        title=relief_request.title,
+        description=f"Location: {relief_request.location}\n \n {relief_request.description}", # noqa
+        status='open',
+    )
+    relief_request.status = 'in_progress'
+    relief_request.save()
+    return redirect('task:task_list', pk=request.user.pk)

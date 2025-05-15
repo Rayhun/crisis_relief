@@ -1,6 +1,7 @@
 from django.views.generic import (
-    ListView, DetailView, CreateView, UpdateView, DeleteView
+    ListView, DetailView, CreateView, UpdateView, DeleteView, View
 )
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -42,6 +43,28 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class MapEventCreateView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST.get('date'), "#" * 20)
+        event = Event.objects.create(
+            user=request.user,
+            title=request.POST.get('title'),
+            event_type=request.POST.get('event_type'),
+            specific_details=request.POST.get('specific_details'),
+            intensity=request.POST.get('intensity'),
+            description=request.POST.get('description'),
+            date=request.POST.get('date'),
+            latitude=request.POST.get('latitude'),
+            longitude=request.POST.get('longitude'),
+            location=request.POST.get('location'),
+            radius=request.POST.get('radius'),
+            affected_people=request.POST.get('affected_people'),
+        )
+        return redirect(reverse_lazy('core:albania_map'))
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):

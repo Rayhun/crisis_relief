@@ -61,9 +61,9 @@
                     </li>
                 </ul>
             </li>
-            {% else %}
+            {% elif not request.user.user_type == 'affected' %}
             <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="{% url 'task:task_list' request.user.pk %}" class="nav-link">
                     <i class="nav-icon fas fa-columns"></i>
                     <p>
                         Kanban Board

@@ -6,23 +6,24 @@ class RequestForm(forms.ModelForm):
     class Meta:
         model = ReliefRequest
         fields = [
-            'event', 'title', 'description', 'category', 'location',
-            'quantity', 'status'
+            'event', 'title', 'category', 'location', 'quantity',
+            'description',
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-select'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
+            'event': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'date', 'latitude', 'longitude', 'location',
-                  'radius', 'affected_people', 'status', 'description']
+        fields = ['title', 'date', 'intensity', 'latitude', 'longitude',
+                  'location', 'radius', 'affected_people', 'status',
+                  'description']
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),

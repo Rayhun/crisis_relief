@@ -46,8 +46,25 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.ticket_id:
+            super().save(*args, **kwargs)  # First save to generate pk
             self.ticket_id = f"TASK-{self.pk}"
-        super().save(*args, **kwargs)
+            kwargs['force_insert'] = False  # Prevent duplicate insert
+            super().save(*args, **kwargs)  # Save again to update ticket_id
+        else:
+            super().save(*args, **kwargs)
+
+    @property
+    def get_priority_color(self):
+        """
+        Returns the color associated with the task's priority.
+        """
+        colors = {
+            'low': 'card-info',
+            'medium': 'card-warning',
+            'high': 'card-danger',
+            'urgent': 'card-danger',
+        }
+        return colors.get(self.priority, 'gray')
 
 
 class TaskComment(models.Model):

@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from Affected.models.event import Event
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -13,8 +14,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 class AlbaniaMapView(TemplateView):
     template_name = 'map/albania_map.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # You can add any context data needed for your map here
+        event = Event.objects.exclude(status='closed').order_by('-created_at')
+        print(event)
+        context['events'] = event
         return context

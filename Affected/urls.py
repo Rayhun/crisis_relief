@@ -11,6 +11,8 @@ urlpatterns = [
          name='event_detail'),
     path('events/create/', event.EventCreateView.as_view(),
          name='event_create'),
+    path('map/events/create/', event.MapEventCreateView.as_view(),
+         name='map_event_create'),
     path('events/update/<int:pk>/', event.EventUpdateView.as_view(),
          name='event_edit'),
     path('events/delete/<int:pk>/', event.EventDeleteView.as_view(),

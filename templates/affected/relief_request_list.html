@@ -7,9 +7,11 @@
         <div class="col-8">
             <h3 class="card-title">Relief Request List</h3>
         </div>
+        {% if request.user.user_type == 'affected' %}
         <div class="col-4 text-right">
             <a href="{% url 'affected:relief_request_create' %}" class="btn btn-primary">Create New Relief Request</a>
         </div>
+        {% endif %}
         <div class="col-12 mt-2">
             <!-- table and data-table -->
             <div class="table">
@@ -46,8 +48,14 @@
                             </td>
                             <td>
                                 <a href="{% url 'affected:relief_request_detail' relief_request.id %}" class="btn btn-info">View</a>
+                                {% if request.user == relief_request.user and relief_request.status == 'open' %}
                                 <a href="{% url 'affected:relief_request_edit' relief_request.id %}" class="btn btn-warning">Edit</a>
                                 <button class="btn btn-danger" value="{{ relief_request.id }}">Delete</button>
+                                {% elif request.user != relief_request.user and relief_request.status == 'open' %}
+                                <a href="{% url 'task:task_self_assign' relief_request.id %}" class="btn btn-secondary">
+                                    Self Assigned
+                                </a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

@@ -11,6 +11,7 @@
     </div>
     <div class="row">
         <div class="col-md-4">
+            
             <div class="card card-row card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">
@@ -19,39 +20,44 @@
                 </div>
                 <div class="card-body">
                     {% for open_task in open_tasks %}
-                    <div class="card card-info card-outline">
+                    <div class="card {{ open_task.get_priority_color }} card-outline">
                         <div class="card-header">
                             <h5 class="card-title">{{ open_task.title }}</h5>
                             <div class="card-tools">
                                 <a href="#" class="btn btn-tool btn-link">#{{ open_task.ticket_id }}</a>
-                                <a href="#" class="btn btn-tool">
+                                <a href="#" class="btn btn-tool" data-bs-toggle="modal" data-bs-target="#taskDetails{{ open_task.id }}">
                                     <i class="fas fa-pen"></i>
                                 </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="taskDetails{{ open_task.id }}" tabindex="-1" aria-labelledby="taskDetails{{ open_task.id }}Label" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="taskDetails{{ open_task.id }}Label">{{ open_task.title }}</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>    
+
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox1" disabled>
-                                <label for="customCheckbox1" class="custom-control-label">Bug</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox2" disabled>
-                                <label for="customCheckbox2" class="custom-control-label">Feature</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox3" disabled>
-                                <label for="customCheckbox3" class="custom-control-label">Enhancement</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox4" disabled>
-                                <label for="customCheckbox4" class="custom-control-label">Documentation</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox5" disabled>
-                                <label for="customCheckbox5" class="custom-control-label">Examples</label>
-                            </div>
+                            {% if open_task.due_date %}
+                            <p>
+                                <strong>Due date:</strong> {{ open_task.due_date }}
+                            </p>
+                            {% endif %}
+                            {{ open_task.description|safe }}
                         </div>
                     </div>
+                     
                     {% endfor %}
                 </div>
             </div>
@@ -109,5 +115,6 @@
             </div>
         </div>
     </div>
-    
+    <!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

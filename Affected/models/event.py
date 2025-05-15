@@ -9,19 +9,32 @@ EVENT_TYPE_CHOICES = [
     ('pandemic', 'Pandemic'),
 ]
 
+INTENSITY_CHOICES = [
+    ('low', 'Low'),
+    ('medium', 'Medium'),
+    ('high', 'High'),
+]
+
 
 class Event(models.Model):
     """Model representing an event that affects people."""
+    user = models.ForeignKey(
+        'core.User', on_delete=models.CASCADE, related_name='events', null=True
+    )
     event_type = models.CharField(
         max_length=20, choices=EVENT_TYPE_CHOICES, default='flood'
     )
-    specific_details = JSONField(null=True, blank=True)  # To store event-specific data
+    specific_details = JSONField(null=True, blank=True)
     title = models.CharField(max_length=100)
+    intensity = models.CharField(
+        max_length=20, choices=INTENSITY_CHOICES, default='high'
+    )
+    color = models.CharField(max_length=7, default='#FF0000')
     description = models.TextField()
     date = models.DateTimeField()
     latitude = models.FloatField()
     longitude = models.FloatField()
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=255)
     radius = models.FloatField()
     affected_people = models.IntegerField()
     status = models.CharField(
@@ -31,3 +44,12 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.intensity == 'low':
+            self.color = '#81e008'
+        elif self.intensity == 'medium':
+            self.color = '#e0b208'
+        elif self.intensity == 'high':
+            self.color = '#FF0000'
+        super().save(*args, **kwargs)
