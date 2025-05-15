@@ -71,20 +71,35 @@
                 </a>
             </li>
             {% endif %}
-            
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-dollar-sign"></i>
+                  <p>
+                    Donation
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{% url 'donate:donation_page' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Money</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'donate:goods_donation' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Goods</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item">
                 <a href="/" class="nav-link">
                     <i class="nav-icon far fa-image"></i>
                     <p>
                         Gallery
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'donate:donation_page' %}" class="nav-link {% if request.path == '/donate/' %}active{% endif %}">
-                    <i class="nav-icon fas fa-dollar-sign"></i>
-                    <p>
-                        Donation
                     </p>
                 </a>
             </li>

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import Donation
+from ..models import Donation
 from core.models import User
 from django.http import HttpResponse
 
@@ -87,6 +87,7 @@ def stripe_webhook(request):
                 defaults={
                     'amount': amount,
                     'donor': user,
+                    'donation_type': 'money',
                 }
             )
         except User.DoesNotExist:
