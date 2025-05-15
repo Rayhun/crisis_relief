@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-x-circle-fill text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="text-danger mb-3">Payment Cancelled</h2>
+                    <p class="lead mb-4">
+                        Your donation process was <strong>cancelled</strong>. If this was a mistake, you can try again.
+                    </p>
+                    <a href="{% url 'donate:donation_page' %}" class="btn btn-outline-danger px-4">Try Again</a>
+                    <a href="{% url 'core:dashboard' %}" class="btn btn-secondary px-4 ms-2">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

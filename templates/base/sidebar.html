@@ -80,6 +80,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{% url 'donate:donation_page' %}" class="nav-link {% if request.path == '/donate/' %}active{% endif %}">
+                    <i class="nav-icon fas fa-dollar-sign"></i>
+                    <p>
+                        Donation
+                    </p>
+                </a>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

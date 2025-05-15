@@ -7,4 +7,5 @@ urlpatterns = [
     path('', include('core.urls')),
     path('affected/', include('Affected.urls')),
     path('task/', include('Task.urls')),
+    path('donate/', include('Donors.urls')),
 ]
