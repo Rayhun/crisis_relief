@@ -5,7 +5,9 @@ from .money import (
     cancel_view,
     stripe_webhook,
 )
-from .goods import goods_donation_view
+from .goods import (
+    GoodsDonationListView, GoodsDonationCreateView, DonationDeleteView
+)
 
 
 __all__ = [
@@ -15,4 +17,7 @@ __all__ = [
     'cancel_view',
     'stripe_webhook',
     'goods_donation_view',
+    'GoodsDonationListView',
+    'GoodsDonationCreateView',
+    'DonationDeleteView'
 ]

@@ -1,0 +1,105 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 750px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-8">
+            <h3 class="card-title">Goods Detail</h3>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ object.donor.get_full_name }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Item Name:</strong> {{ object.item_name }}</p>
+                    <p><strong>Date:</strong> {{ object.delivery_time }}</p>
+                    <p><strong>Contract Info:</strong> {{ object.contact_info }}</p>
+                    <p><strong>Pickup Address:</strong> {{ object.pickup_address }}</p>
+                    <p><strong>Description:</strong> {{ object.item_description|safe }}</p>
+                    <hr>
+                    <div id="map"></div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'donate:goods_donation_list' %}" class="btn btn-secondary">Back to object List</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+      // Initialize the map centered on Albania
+      var map = L.map('map').setView([41.1533, 20.1683], 7.7);
+    
+    // Add OpenStreetMap tiles with a grayscale filter for non-Albania areas
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        className: 'albania-focused-map'
+    }).addTo(map);
+    // Set Albania bounds
+    var southWest = L.latLng(39.1, 18.9),
+        northEast = L.latLng(42.9, 21.3);
+    var bounds = L.latLngBounds(southWest, northEast);
+    
+    // Restrict view to Albania
+    map.setMaxBounds(bounds);
+    map.on('drag', function() {
+        map.panInsideBounds(bounds, { animate: false });
+    });
+
+    const manualUrl = window.location.protocol + "//" + window.location.host;
+
+    // Add Albania's precise boundary (using GeoJSON)
+    var geojson = manualUrl + '/static/js/alb.geo.json'
+    fetch(geojson)
+        .then(response => response.json())
+        .then(data => {
+            // Highlight Albania with a colored border
+            L.geoJSON(data, {
+                style: {
+                    color: '#3388ff',  // Border color
+                    weight: 2,         // Border width
+                    fillColor: '#3388ff', // Fill color
+                    fillOpacity: 0.1   // Fill opacity
+                }
+            }).addTo(map);
+        });
+    
+    // Choose Font Awesome icon class based on event type
+    var iconHtml = "";
+    var iconHtml = '<i class="fas fa-map-marker-alt fa-2x" style="color: red;"></i>';
+
+    // Create Leaflet Font Awesome marker
+    var faIcon = L.divIcon({
+        html: iconHtml,
+        className: 'custom-fa-icon',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+
+    // Add the marker with popup
+    L.marker([{{ object.pickup_latitude }}, {{ object.pickup_longitude }}], { icon: faIcon })
+        .addTo(map)
+        .bindPopup("<b>Pickup Point</b><br>{{ object.pickup_address }}")
+        .openPopup();
+
+</script>
+{% endblock %}

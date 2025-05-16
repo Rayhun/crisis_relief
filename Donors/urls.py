@@ -15,5 +15,16 @@ urlpatterns = [
     path('stripe/webhook/', money.stripe_webhook, name='stripe_webhook'),
 
     # Goods donation
-    path('goods-donation/', goods.goods_donation_view, name='goods_donation'),
+    path(
+        'goods-donation-list/', goods.GoodsDonationListView.as_view(),
+        name='goods_donation_list'
+    ),
+    path(
+        'goods-donation-create/', goods.GoodsDonationCreateView.as_view(),
+        name='goods_donation_create'
+    ),
+    path(
+        'goods-donation-details/<int:pk>/',
+        goods.DonationDeleteView.as_view(), name="goods_donation_details"
+    )
 ]
