@@ -22,7 +22,13 @@ class UserAdmin(admin.ModelAdmin):
     ordering = ("-date_joined",)
     list_per_page = 20
     fieldsets = (
-        (None, {"fields": ("username", "email", "password")}),
+        (
+            None, {
+                "fields": (
+                    "username", "email", "password", "address"
+                )
+            }
+        ),
         ("Personal info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),

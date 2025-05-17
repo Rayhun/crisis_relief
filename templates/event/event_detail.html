@@ -7,10 +7,12 @@
         <div class="col-8">
             <h3 class="card-title">Event Detail</h3>
         </div>
+        {% if request.user == event.user %}
         <div class="col-4 text-right">
             <a href="{% url 'affected:event_edit' event.id %}" class="btn btn-warning">Edit Event</a>
             <a href="{% url 'affected:event_delete' event.id %}" class="btn btn-danger">Delete Event</a>
         </div>
+        {% endif %}
         <div class="col-12 mt-2">
             <div class="card">
                 <div class="card-header">

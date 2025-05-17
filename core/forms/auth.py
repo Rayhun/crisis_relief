@@ -32,7 +32,7 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = (
             'username', 'email', 'user_type', 'first_name', 'last_name',
-            'password1', 'password2'
+            'address', 'password1', 'password2'
         )
 
     def __init__(self, *args, **kwargs):
@@ -42,21 +42,17 @@ class CustomUserCreationForm(UserCreationForm):
             Row(
                 Column('username', css_class='form-group col-md-6 mb-0'),
                 Column('email', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
             ),
             Row(
                 Column('first_name', css_class='form-group col-md-6 mb-0'),
                 Column('last_name', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
             ),
             Row(
-                Column('user_type', css_class='form-select col-md-6 mb-0'),
-                css_class='form-row'
+                Column('user_type', css_class='form-control col-md-6 mb-0'),
             ),
             Row(
                 Column('password1', css_class='form-group col-md-6 mb-0'),
                 Column('password2', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
             ),
             Submit('submit', 'Sign Up', css_class='btn-primary btn-block')
         )

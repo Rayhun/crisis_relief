@@ -39,6 +39,11 @@ class ReliefRequestCreateView(LoginRequiredMixin, CreateView):
     template_name = 'affected/relief_request_form.html'
     success_url = reverse_lazy('affected:relief_request_list')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)

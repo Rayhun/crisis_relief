@@ -17,6 +17,15 @@ class RequestForm(forms.ModelForm):
             'event': forms.Select(attrs={'class': 'form-control'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(RequestForm, self).__init__(*args, **kwargs)
+        if user:
+            address_parts = []
+            if user.address:
+                address_parts.append(user.address)
+            self.fields['location'].initial = ', '.join(filter(None, address_parts))
+
 
 class EventForm(forms.ModelForm):
     class Meta:

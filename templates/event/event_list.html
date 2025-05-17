@@ -7,9 +7,11 @@
         <div class="col-8">
             <h3 class="card-title">Event List</h3>
         </div>
+        {% if request.user.is_superuser %}
         <div class="col-4 text-right">
             <a href="{% url 'affected:event_create' %}" class="btn btn-primary">Create New Event</a>
         </div>
+        {% endif %}
         <div class="col-12 mt-2">
             <!-- table and data-table -->
             <div class="table">
@@ -48,8 +50,10 @@
                             </td>
                             <td>
                                 <a href="{% url 'affected:event_detail' event.id %}" class="btn btn-info">View</a>
+                                {% if request.user == event.user %}
                                 <a href="{% url 'affected:event_edit' event.id %}" class="btn btn-warning">Edit</a>
                                 <button class="btn btn-danger" value="{{ event.id }}">Delete</button>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

@@ -8,8 +8,14 @@
             <h3 class="card-title">Relief Request Detail</h3>
         </div>
         <div class="col-4 text-right">
-            <a href="{% url 'affected:relief_request_edit' relief_request.id %}" class="btn btn-warning">Edit Relief Request</a>
-            <a href="{% url 'affected:relief_request_delete' relief_request.id %}" class="btn btn-danger">Delete Relief Request</a>
+            
+            {% if request.user == relief_request.user and relief_request.status == 'open' %}
+                                <a href="{% url 'affected:relief_request_edit' relief_request.id %}" class="btn btn-warning">Edit Request</a>
+                                {% elif request.user != relief_request.user and relief_request.status == 'open' %}
+                                <a href="{% url 'task:task_self_assign' relief_request.id %}" class="btn btn-secondary">
+                                    Self Assigned
+                                </a>
+                                {% endif %}
         </div>
         <div class="col-12 mt-2">
             <div class="card">
