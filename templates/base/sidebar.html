@@ -1,3 +1,12 @@
+<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+        <img src="{{ request.user.get_path }}" class="img-circle elevation-2" style="width: 50px; height: 50px;"/>
+    </div>
+    <div class="info">
+        <a href="{% url 'core:user_profile' request.user.pk %}" class="d-block text-white">{{ request.user.get_full_name }}</a>
+        <p class="text-white">{{ request.user.email }}</p>
+    </div>
+</div>
 <!-- Sidebar -->
 <div class="sidebar">
     <!-- Sidebar Menu -->

@@ -31,7 +31,7 @@ class Task(models.Model):
         max_length=10, choices=PRIORITY_CHOICES, default='medium'
     )
     status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default='pending'
+        max_length=20, choices=STATUS_CHOICES, default='open'
     )
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='tasks'

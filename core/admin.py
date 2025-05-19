@@ -1,4 +1,4 @@
-from core.models import User
+from core.models import User, Skill
 
 
 from django.contrib import admin
@@ -38,3 +38,10 @@ class UserAdmin(admin.ModelAdmin):
         ("Personal info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
     )
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+    search_fields = ("name",)
+    ordering = ("name",)

@@ -64,3 +64,12 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ProfileForms(forms.ModelForm):
+    class Meta():
+        model = User
+        fields = (
+            'first_name', 'last_name', 'address', 'phone_number',
+            'profile_picture', 'skill'
+        )

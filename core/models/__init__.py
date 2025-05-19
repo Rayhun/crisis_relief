@@ -1,6 +1,7 @@
-from .user import User
+from .user import User, Skill
 
 
 __all__ = [
     'User',
+    'Skill'
 ]

@@ -1,6 +1,6 @@
 from .dashboard import DashboardView, AlbaniaMapView
 from .auth import CustomLoginView, SignupView
-from .user import UserListView
+from .user import UserListView, update_profile
 
 
 __all__ = [
@@ -9,4 +9,5 @@ __all__ = [
     'CustomLoginView',
     'SignupView',
     'UserListView',
+    'update_profile'
 ]

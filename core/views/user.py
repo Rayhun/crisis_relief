@@ -1,6 +1,8 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import User
+from core.forms import ProfileForms
 
 
 class UserListView(LoginRequiredMixin, ListView):
@@ -28,3 +30,30 @@ class UserListView(LoginRequiredMixin, ListView):
         context['user_count'] = self.get_queryset().count()
         context['search_query'] = search_query
         return context
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'core/user_profile.html'
+    context_object_name = 'user_profile'
+
+    def get_object(self, queryset=None):
+        # Show the profile of the currently logged-in user
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_profile = self.request.user
+        form = ProfileForms(instance=user_profile)
+        context['form'] = form
+        return context
+
+
+def update_profile(request):
+    if request.method == 'POST':
+        user = request.user
+        form = ProfileForms(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('core:user_profile', pk=user.pk)
+    return redirect('core:user_profile', pk=user.pk)
