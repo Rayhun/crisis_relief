@@ -18,19 +18,27 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/task_list.html'
     context_object_name = 'tasks'
-    paginate_by = 10  # Number of tasks per page
+    paginate_by = 10
     ordering = ['-created_at']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # get pk from keyword arguments
         pk = self.kwargs.get('pk')
         user = User.objects.get(pk=pk)
-        task = self.model.objects.filter(user=user)
+        
+        # Get all tasks for the user
+        tasks = self.model.objects.filter(user=user)
+        
+        # Organize tasks by status
+        context['tasks_by_status'] = {
+            'open': tasks.filter(status='open'),
+            'in_progress': tasks.filter(status='in_progress'),
+            'closed': tasks.filter(status='closed'),
+        }
+        
         context['all_tags'] = Tag.objects.all()
-        context['open_tasks'] = task.filter(status='open')
         context['user'] = user
-        context['task_count'] = task.count()
+        context['task_count'] = tasks.count()
         return context
 
 
