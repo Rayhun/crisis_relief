@@ -1,0 +1,146 @@
+{% extends "base/base.html" %}
+{% load static checklist_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{% url 'task:task_list' user.pk %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Tasks
+            </a>
+            <button class="btn btn-primary float-right move-to-next" 
+                    data-task-id="{{ task.id }}"
+                    data-current-status="{{ task.status }}">
+                {% if task.status == 'open' %}Move to Inprogress{% endif %}
+                {% if task.status == 'in_progress' %}Move to Done{% endif %}
+                {% if task.status == 'closed' %}Reopen Task{% endif %}
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Task Details: {{ task.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="taskTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab">Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="updates-tab" data-toggle="tab" href="#updates" role="tab">Updates</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="media-tab" data-toggle="tab" href="#media" role="tab">Media</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content mt-3" id="taskTabsContent">
+                        <!-- Details Tab -->
+                        <div class="tab-pane fade show active" id="details" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Task ID:</strong> {{ task.ticket_id }}</p>
+                                    <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+                                    <p><strong>Priority:</strong> {{ task.priority|title }}</p>
+                                    <p><strong>Status:</strong>
+                                        <span class="badge 
+                                            {% if task.status == 'open' %}badge-success
+                                            {% elif task.status == 'in_progress' %}badge-primary
+                                            {% else %}badge-secondary{% endif %}">
+                                            {{ task.get_status_display }}
+                                        </span>
+                                    </p>
+                                    <p><strong>Tags:</strong> 
+                                        {% for tag in task.tags.all %}
+                                            <span class="badge badge-info">{{ tag }}</span>
+                                        {% endfor %}
+                                    </p>
+                                    <p><strong>Description:</strong></p>
+                                    <div class="border p-2">
+                                        {{ task.description|render_checklist:task.id|safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Updates Tab -->
+                        <div class="tab-pane fade" id="updates" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'task:task_update' task.pk %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="title"><strong>Title:</strong></label>
+                                                    <input type="text" class="form-control" id="title" name="title" 
+                                                        value="{{ task.title }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="due_date"><strong>Due Date:</strong></label>
+                                                    <input type="datetime-local" class="form-control" id="due_date" name="due_date" 
+                                                        value="{{ task.due_date|date:'Y-m-d\TH:i' }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="priority"><strong>Priority:</strong></label>
+                                                    <select class="form-control" id="priority" name="priority">
+                                                        <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                                                        <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                                                        <option value="high" {% if task.priority == 'high' %}selected{% endif %}>High</option>
+                                                        <option value="critical" {% if task.priority == 'critical' %}selected{% endif %}>Critical</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><strong>Tags:</strong></label>
+                                                    <select class="form-control select2-multiple" id="tags" name="tags" multiple>
+                                                        {% for tag in all_tags %}
+                                                            <option value="{{ tag.id }}" {% if tag in task.tags.all %}selected{% endif %}>
+                                                                {{ tag.name }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="description"><strong>Description:</strong></label>
+                                            <textarea class="form-control description" id="description" name="description">
+                                                {{ task.description|safe }}
+                                            </textarea>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary">Update Task</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Media Tab -->
+                        <div class="tab-pane fade" id="media" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>Media content goes here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include JavaScript -->
+{% include "task/partials/task_js.html" %}
+{% include "task/partials/task_detail_js.html" %}
+{% endblock %}

@@ -1,13 +1,14 @@
+{% load checklist_tags %}
 
-{% load static checklist_tags %}
 <div class="card {{ task.get_priority_color }} card-outline task-card" draggable="true" data-task-id="{{ task.id }}">
     <div class="card-header">
-        <h5 class="card-title">{{ task.title }}</h5>
-        <div class="card-tools">
-            <a href="#" class="btn btn-tool btn-link">#{{ task.ticket_id }}</a>
-            <a href="#" class="btn btn-tool" data-bs-toggle="modal" data-bs-target="#taskDetails{{ task.id }}">
-                <i class="fas fa-pen"></i>
+        <h5 class="card-title">
+            <a href="{% url 'task:task_detail' user.pk task.id %}">
+                {{ task.title }}
             </a>
+        </h5>
+        <div class="card-tools">
+            <span class="badge badge-light">#{{ task.ticket_id }}</span>
         </div>
     </div>
     <div class="card-body">
@@ -16,125 +17,8 @@
             <strong>Due date:</strong> {{ task.due_date }}
         </p>
         {% endif %}
-        {{ task.description|render_checklist:task.id|safe }}
+        {% for tag in task.tags.all %}
+            <span class="badge badge-info">{{ tag }}</span>
+        {% endfor %}
     </div>
 </div>
-
-<div class="modal fade" id="taskDetails{{ open_task.id }}" tabindex="-1" aria-labelledby="taskDetails{{ open_task.id }}Label" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button class="btn btn-primary btn-sm">Move to Inprogress</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="home{{ open_task.ticket_id }}-tab" data-bs-toggle="tab" data-bs-target="#home{{ open_task.ticket_id }}" type="button" role="tab" aria-controls="home{{ open_task.ticket_id }}" aria-selected="true">Task Details</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="profile{{ open_task.ticket_id }}-tab" data-bs-toggle="tab" data-bs-target="#profile{{ open_task.ticket_id }}" type="button" role="tab" aria-controls="profile{{ open_task.ticket_id }}" aria-selected="false">Task Update</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Media</button>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content" id="myTabContent">
-                                                <div class="tab-pane fade show active" id="home{{ open_task.ticket_id }}" role="tabpanel" aria-labelledby="home{{ open_task.ticket_id }}-tab">
-                                                    <div class="card mt-4">
-                                                        <div class="card-body">
-                                                            <p><strong>Task ID:</strong> {{ open_task.ticket_id }}</p>
-                                                            <p><strong>Due Date:</strong> {{ open_task.due_date }}</p>
-                                                            <p><strong>Priority:</strong> {{ open_task.priority|title }}</p>
-                                                            <p><strong>Affected People:</strong> {{ open_task.affected_people }}</p>
-                                                            <p><strong>Status:</strong>
-                                                                {% if open_task.status == 'open' %}
-                                                                <span class="badge badge-success">Todo</span>
-                                                                {% elif open_task.status == 'in_progress' %}
-                                                                <span class="badge badge-primary">In Progress</span>
-                                                                {% elif open_task.info == 'closed' %}
-                                                                <span class="badge badge-success">Done</span>
-                                                                {% else %}
-                                                                <span class="badge badge-secondary">Unknown</span>
-                                                                {% endif %}
-                                                            </p>
-                                                            <p><strong>Tag:</strong> {% for tag in open_task.tags.all %} <span class="badge badge-info">{{ tag }}</span>{% endfor %}</p>
-                                                            <p><strong>Description:</strong> </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="profile{{ open_task.ticket_id }}" role="tabpanel" aria-labelledby="profile{{ open_task.ticket_id }}-tab">
-                                                    <div class="card mt-4">
-                                                        <div class="card-body">
-                                                            <div class="form-group">
-                                                                <label><strong>Task ID:</strong> {{ open_task.ticket_id }}</label>
-                                                            </div>
-                                                            <form method="post" action="">
-                                                                {% csrf_token %}
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="due_date"><strong>Title:</strong></label>
-                                                                            <input type="text" class="form-control" id="task_title" name="title" 
-                                                                                value="{{ open_task.title }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="due_date"><strong>Due Date:</strong></label>
-                                                                            <input type="datetime-local" class="form-control" id="due_date" name="due_date" 
-                                                                                value="{{ open_task.due_date|date:'Y-m-d\TH:i' }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="priority"><strong>Priority:</strong></label>
-                                                                            <select class="form-control" id="priority" name="priority">
-                                                                                <option value="low" {% if open_task.priority == 'low' %}selected{% endif %}>Low</option>
-                                                                                <option value="medium" {% if open_task.priority == 'medium' %}selected{% endif %}>Medium</option>
-                                                                                <option value="high" {% if open_task.priority == 'high' %}selected{% endif %}>High</option>
-                                                                                <option value="critical" {% if open_task.priority == 'critical' %}selected{% endif %}>Critical</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label><strong>Tags:</strong></label>
-                                                                            <div class="d-flex flex-wrap mb-2">
-                                                                                {% for tag in open_task.tags.all %}
-                                                                                    <span class="badge badge-info mr-2 mb-2">{{ tag }}</span>
-                                                                                {% endfor %}
-                                                                            </div>
-                                                                            <select class="form-control select2-multiple" id="tags" name="tags" multiple>
-                                                                                {% for tag in all_tags %}
-                                                                                    <option value="{{ tag.id }}" {% if tag in open_task.tags.all %}selected{% endif %}>
-                                                                                        {{ tag.name }}
-                                                                                    </option>
-                                                                                {% endfor %}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Description -->
-                                                                <div class="form-group">
-                                                                    <label for="description"><strong>Description:</strong></label>
-                                                                    <textarea class="form-control description" id="description" name="description">
-                                                                        {{ open_task.description|safe }}
-                                                                    </textarea>
-                                                                </div>
-                                                                
-                                                                <button type="submit" class="btn btn-primary">Update Task</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                                    media
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>   
