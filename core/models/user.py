@@ -45,3 +45,7 @@ class User(AbstractUser):
         if self.profile_picture and hasattr(self.profile_picture, 'url'):
             return self.profile_picture.url
         return '/static/images/avatar.png'
+    
+    @property
+    def get_user_type(self):
+        return dict(USER_TYPE_CHOICES).get(self.user_type, "Unknown")

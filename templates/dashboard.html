@@ -11,11 +11,12 @@
             <div class="small-box bg-primary">
                 <div class="inner">
                     <h3>{{ user_type.org.count }}</h3>
-                    <p>Organizations </p>
+                    <p>Organizations</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-ios-home"></i>
                 </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -24,12 +25,12 @@
             <div class="small-box bg-secondary">
                 <div class="inner">
                     <h3>{{ user_type.volunteers.count }}</h3>
-
                     <p>Volunteers</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person"></i>
                 </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -38,12 +39,12 @@
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>{{ user_type.donors.count }}</h3>
-
                     <p>Donors</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-heart"></i>
                 </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -52,201 +53,151 @@
             <div class="small-box bg-danger">
                 <div class="inner">
                     <h3>{{ user_type.affected.count }}</h3>
-
                     <p>Affected Individuals</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-alert-circled"></i>
                 </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
     </div>
     <!-- /.row -->
-    <!-- Main row -->
+
+    <!-- Main content row -->
     <div class="row">
-        <!-- Left col -->
-        <dev class="col-lg-6">
+        <!-- Recent Activities Section -->
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="ion ion-clipboard mr-1"></i>
-                        Relief Request List
-                    </h3>
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">Recent Activities</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
-                    <ul class="todo-list" data-widget="todo-list">
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo7" id="todoCheck7">
-                                <label for="todoCheck7"></label>
-                            </div>
-                            <span class="text">Distribute food and water to flood victims</span>
-                            <small class="badge badge-danger"><i class="far fa-clock"></i>
-                                Urgent</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo8" id="todoCheck8">
-                                <label for="todoCheck8"></label>
-                            </div>
-                            <span class="text">Help evacuate stranded residents</span>
-                            <small class="badge badge-warning"><i class="far fa-clock"></i> 2
-                                hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo9" id="todoCheck9">
-                                <label for="todoCheck9"></label>
-                            </div>
-                            <span class="text">Assist in setting up temporary shelters</span>
-                            <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo10" id="todoCheck10">
-                                <label for="todoCheck10"></label>
-                            </div>
-                            <span class="text">Distribute blankets and clothes</span>
-                            <small class="badge badge-primary"><i class="far fa-clock"></i> 6
-                                hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo11" id="todoCheck11">
-                                <label for="todoCheck11"></label>
-                            </div>
-                            <span class="text">Provide first aid to injured people</span>
-                            <small class="badge badge-success"><i class="far fa-clock"></i> 1
-                                day</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo12" id="todoCheck12">
-                                <label for="todoCheck12"></label>
-                            </div>
-                            <span class="text">Transport people to safer areas</span>
-                            <small class="badge badge-warning"><i class="far fa-clock"></i> 3
-                                hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo13" id="todoCheck13">
-                                <label for="todoCheck13"></label>
-                            </div>
-                            <span class="text">Clean and sanitize affected areas</span>
-                            <small class="badge badge-secondary"><i class="far fa-clock"></i> 2
-                                days</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo14" id="todoCheck14">
-                                <label for="todoCheck14"></label>
-                            </div>
-                            <span class="text">Coordinate with local authorities</span>
-                            <small class="badge badge-info"><i class="far fa-clock"></i> 1 day</small>
-                        </li>
-                    </ul>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table m-0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for relief in relief_request|slice:":6" %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ relief.title }}</td>
+                                    <td>{{ relief.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        {% if relief.status == 'open' %}
+                                        <span class="badge badge-success">Open</span>
+                                        {% elif relief.status == 'closed' %}
+                                        <span class="badge badge-danger">Closed</span>
+                                        {% elif relief.status == 'in_progress' %}
+                                        <span class="badge badge-warning">In Progress</span>
+                                        {% else %}
+                                        <span class="badge badge-secondary">Unknown</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No recent activities</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
                 </div>
+                <!-- /.card-body -->
+                <div class="card-footer clearfix">
+                    <a href="{% url 'affected:relief_request_list' %}" class="btn btn-sm btn-secondary float-right">View All Activities</a>
+                </div>
+                <!-- /.card-footer -->
             </div>
-            <!-- /.card -->
-        </dev>
-        <!-- /.Left col -->
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <dev class="col-lg-6">
+        </div>
 
-            <!-- TO DO List -->
+        <!-- Quick Actions Section -->
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="ion ion-clipboard mr-1"></i>
-                        Volunteers Task List
-                    </h3>
+                    <h3 class="card-title">Quick Actions</h3>
                 </div>
-                <!-- /.card-header -->
                 <div class="card-body">
-                    <ul class="todo-list" data-widget="todo-list">
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo7" id="todoCheck7">
-                                <label for="todoCheck7"></label>
-                            </div>
-                            <span class="text">Distribute food and water to flood victims</span>
-                            <small class="badge badge-danger"><i class="far fa-clock"></i>
-                                Urgent</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo8" id="todoCheck8">
-                                <label for="todoCheck8"></label>
-                            </div>
-                            <span class="text">Help evacuate stranded residents</span>
-                            <small class="badge badge-warning"><i class="far fa-clock"></i> 2
-                                hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo9" id="todoCheck9">
-                                <label for="todoCheck9"></label>
-                            </div>
-                            <span class="text">Assist in setting up temporary shelters</span>
-                            <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo10" id="todoCheck10">
-                                <label for="todoCheck10"></label>
-                            </div>
-                            <span class="text">Distribute blankets and clothes</span>
-                            <small class="badge badge-primary"><i class="far fa-clock"></i> 6
-                                hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo11" id="todoCheck11">
-                                <label for="todoCheck11"></label>
-                            </div>
-                            <span class="text">Provide first aid to injured people</span>
-                            <small class="badge badge-success"><i class="far fa-clock"></i> 1
-                                day</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo12" id="todoCheck12">
-                                <label for="todoCheck12"></label>
-                            </div>
-                            <span class="text">Transport people to safer areas</span>
-                            <small class="badge badge-warning"><i class="far fa-clock"></i> 3
-                                hours</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo13" id="todoCheck13">
-                                <label for="todoCheck13"></label>
-                            </div>
-                            <span class="text">Clean and sanitize affected areas</span>
-                            <small class="badge badge-secondary"><i class="far fa-clock"></i> 2
-                                days</small>
-                        </li>
-                        <li>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" value="" name="todo14" id="todoCheck14">
-                                <label for="todoCheck14"></label>
-                            </div>
-                            <span class="text">Coordinate with local authorities</span>
-                            <small class="badge badge-info"><i class="far fa-clock"></i> 1 day</small>
-                        </li>
-                    </ul>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <a href="" class="btn btn-primary btn-block">
+                                <i class="fas fa-plus mr-2"></i>Add Organization
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <a href="" class="btn btn-secondary btn-block">
+                                <i class="fas fa-user-plus mr-2"></i>Add Volunteer
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <a href="" class="btn btn-success btn-block">
+                                <i class="fas fa-hand-holding-usd mr-2"></i>Record Donation
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <a href="" class="btn btn-danger btn-block">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Add Affected
+                            </a>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <a href="" class="btn btn-info btn-block">
+                                <i class="fas fa-calendar-plus mr-2"></i>Create New Event
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </dev>
-        <!-- right col -->
+            <!-- Summary Section -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="card-title">System Summary</h3>
+                </div>
+                <div class="card-body">
+                    <div class="progress-group">
+                        Volunteer Registration
+                        <span class="float-right"><b>{{ volunteer_reg_percentage }}%</b></span>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-primary" style="width: {{ volunteer_reg_percentage }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-group">
+                        Donation Target
+                        <span class="float-right"><b>{{ donation_percentage }}%</b> of goal</span>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" style="width: {{ donation_percentage }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-group">
+                        Relief Distribution
+                        <span class="float-right"><b>{{ relief_distribution_percentage }}%</b> completed</span>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-warning" style="width: {{ relief_distribution_percentage }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.row (main row) -->
+    <!-- /.row -->
 </div><!-- /.container-fluid -->
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="{% static 'js/custom.js' %}"></script>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from Affected.models.event import Event
+from Affected.models import Event, ReliefRequest
 from core.models import User
 
 
@@ -17,6 +17,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'affected': user.filter(user_type='affected'),
         }
         context['title'] = 'Dashboard'
+        context['relief_request'] = ReliefRequest.objects.filter(
+            status__in=['open', 'in_progress']
+        ).order_by("-pk")
         return context
 
 
