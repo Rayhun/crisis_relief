@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import re
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
+from .forms import TaskCommentForms
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -46,9 +46,36 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        self.object = self.get_object()
+        print(self.object, "*" * 10)
         context['all_tags'] = Tag.objects.all()
         context['user'] = self.request.user
+        context['form'] = TaskCommentForms()
+        context['comments'] = TaskComment.objects.filter(task=self.object).order_by('-created_at')
         return context
+    
+
+class TaskCommentView(LoginRequiredMixin, CreateView):
+    model = TaskComment
+    template_name = 'task/task_detail.html'
+    form_class = TaskCommentForms
+
+    def form_valid(self, form):
+        task_id = self.kwargs.get('pk')
+        task = Task.objects.get(pk=task_id)
+        form.instance.task = task
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        task_id = self.kwargs.get('pk')
+        task = Task.objects.get(pk=task_id)
+        return reverse_lazy(
+            'task:task_detail', kwargs={
+                'pk': task.user.pk,
+                'task_id': task.pk
+            }
+        )
 
 
 def task_self_assign(request, pk):
@@ -58,6 +85,7 @@ def task_self_assign(request, pk):
         print(e)
         return redirect('task:task_list', pk=request.user.pk)
     Task.objects.create(
+        relief_request=relief_request,
         user=request.user,
         title=relief_request.title,
         description=f"Location: {relief_request.location}\n \n {relief_request.description}", # noqa
@@ -80,7 +108,7 @@ def task_update(request, pk):
         tag_ids = request.POST.getlist('tags')
         task.tags.set(Tag.objects.filter(id__in=tag_ids))
         return redirect('task:task_list', pk=request.user.pk)
- 
+
     except Exception as e:
         print(e)
         return redirect('task:task_list', pk=request.user.pk)

@@ -1,6 +1,7 @@
 from django.db import models
 from core.models import User
 from Affected.models.event import STATUS_CHOICES
+from Affected.models import ReliefRequest
 
 
 class Tag(models.Model):
@@ -24,6 +25,9 @@ class Task(models.Model):
         ('urgent', 'Urgent'),
     ]
     ticket_id = models.CharField(max_length=255, unique=True)
+    relief_request = models.ForeignKey(
+        ReliefRequest, on_delete=models.CASCADE, null=True, blank=True
+    )
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
