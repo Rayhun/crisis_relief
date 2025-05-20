@@ -1,11 +1,14 @@
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
+from datetime import datetime
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from Affected.models import ReliefRequest
 from Affected.forms import RequestForm
+from utils import send_notification_email
+from core.models import User
 
 
 class ReliefRequestListView(LoginRequiredMixin, ListView):
@@ -46,7 +49,26 @@ class ReliefRequestCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        recipients = User.objects.filter(
+            email__isnull=False,
+            user_type__in=['org', 'volunteers']
+        ).exclude(email='').values_list('email', flat=True)
+
+        subject = "New Relief Request Submitted"
+        heading = "A new relief request has been created"
+        message = f"A new relief request was submitted by {self.request.user.get_full_name} on {datetime.now().strftime('%Y-%m-%d %H:%M')}."
+
+        for email in recipients:
+            send_notification_email(
+                to_email=email,
+                heading=heading,
+                message=message,
+                subject=subject
+            )
+
+        return response
 
 
 class ReliefRequestUpdateView(LoginRequiredMixin, UpdateView):

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ subject }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 6px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .footer {
+      font-size: 12px;
+      text-align: center;
+      color: #777;
+      margin-top: 20px;
+    }
+    @media only screen and (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>{{ heading }}</h2>
+    <p>{{ message }}</p>
+    <p>Thank you,<br><strong>Crisis Relief Team</strong></p>
+  </div>
+  <div class="footer">
+    &copy; {{ year }} Crisis Relief
+  </div>
+</body>
+</html>
