@@ -10,8 +10,8 @@
             <!-- small box -->
             <div class="small-box bg-primary">
                 <div class="inner">
-                    <h3>15</h3>
-                    <p>Organizations</p>
+                    <h3>{{ user_type.org.count }}</h3>
+                    <p>Organizations </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-ios-home"></i>
@@ -23,7 +23,7 @@
             <!-- small box -->
             <div class="small-box bg-secondary">
                 <div class="inner">
-                    <h3>53</h3>
+                    <h3>{{ user_type.volunteers.count }}</h3>
 
                     <p>Volunteers</p>
                 </div>
@@ -37,7 +37,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>$44</h3>
+                    <h3>{{ user_type.donors.count }}</h3>
 
                     <p>Donors</p>
                 </div>
@@ -51,7 +51,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{ user_type.affected.count }}</h3>
 
                     <p>Affected Individuals</p>
                 </div>
