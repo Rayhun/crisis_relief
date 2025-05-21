@@ -71,7 +71,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">Recent Activities</h3>
+                    <h3 class="card-title">Relief Request</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -163,35 +163,50 @@
                 </div>
             </div>
 
-            <!-- Summary Section -->
+            <!-- Affected People Image Slider -->
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3 class="card-title">System Summary</h3>
+                    <h3 class="card-title">Affected People</h3>
                 </div>
-                <div class="card-body">
-                    <div class="progress-group">
-                        Volunteer Registration
-                        <span class="float-right"><b>{{ volunteer_reg_percentage }}%</b></span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-primary" style="width: {{ volunteer_reg_percentage }}%"></div>
+                <div class="card-body p-0">
+                    <div id="affectedPeopleCarousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for image in affected_images %}
+                            <li data-target="#affectedPeopleCarousel" data-slide-to="{{ forloop.counter0 }}" 
+                                {% if forloop.first %}class="active"{% endif %}></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for image in affected_images %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img class="d-block w-100" src="{{ image.image.url }}" alt="Affected people image {{ forloop.counter }}" style="height: 200px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
+                                    <h5>{{ image.title }}</h5>
+                                    <p>{{ image.description|truncatechars:50 }}</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{% static 'images/default-affected.jpg' %}" alt="Default affected people image" style="height: 200px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
+                                    <h5>Affected People</h5>
+                                    <p>Images of people needing assistance</p>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
+                        <a class="carousel-control-prev" href="#affectedPeopleCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#affectedPeopleCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-
-                    <div class="progress-group">
-                        Donation Target
-                        <span class="float-right"><b>{{ donation_percentage }}%</b> of goal</span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-success" style="width: {{ donation_percentage }}%"></div>
-                        </div>
-                    </div>
-
-                    <div class="progress-group">
-                        Relief Distribution
-                        <span class="float-right"><b>{{ relief_distribution_percentage }}%</b> completed</span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-warning" style="width: {{ relief_distribution_percentage }}%"></div>
-                        </div>
-                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'core:affected_people_images' %}" class="btn btn-sm btn-danger">View All Affected Individuals</a>
                 </div>
             </div>
         </div>

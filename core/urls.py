@@ -12,6 +12,10 @@ urlpatterns = [
     path('signup/', auth.SignupView.as_view(), name='signup'),
 
     path('user/list/', user.UserListView.as_view(), name='user_list'),
-    path('profile/<int:pk>/', user.UserProfileView.as_view(), name='user_profile'),
+    path('profile/<int:pk>/', user.UserProfileView.as_view(),
+         name='user_profile'),
     path('update-profile/', user.update_profile, name='update_profile'),
+    path('affected-people-images/',
+         dashboard.AffectedPeopleImagesView.as_view(),
+         name='affected_people_images'),
 ]

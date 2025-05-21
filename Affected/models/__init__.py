@@ -1,8 +1,9 @@
 from .relief import ReliefRequest
-from .event import Event
+from .event import Event, AffectedPeopleImages
 
 
 __all__ = [
     'ReliefRequest',
-    'Event'
+    'Event',
+    'AffectedPeopleImages'
 ]

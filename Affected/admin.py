@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Affected.models import Event, ReliefRequest
+from Affected.models import Event, ReliefRequest, AffectedPeopleImages
 
 
 @admin.register(Event)
@@ -18,3 +18,8 @@ class ReliefRequestAdmin(admin.ModelAdmin):
     list_filter = ('status',)
     ordering = ('-created_at',)
     date_hierarchy = 'created_at'
+
+
+@admin.register(AffectedPeopleImages)
+class AffectedPeopleImagesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', )

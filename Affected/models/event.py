@@ -53,3 +53,14 @@ class Event(models.Model):
         elif self.intensity == 'high':
             self.color = '#FF0000'
         super().save(*args, **kwargs)
+
+
+class AffectedPeopleImages(models.Model):
+    """ Affected people images model """
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='affected_people_images/')
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

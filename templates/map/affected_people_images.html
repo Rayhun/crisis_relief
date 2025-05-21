@@ -1,0 +1,82 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Add Lightbox CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h4 class="card-title">Affected People Images</h4>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for image in affected_images %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4">
+                            <div class="card">
+                                <a href="{{ image.image.url }}" data-toggle="lightbox" data-gallery="affected-gallery" data-title="{% if image.title %}{{ image.title }}{% else %}Affected Person{% endif %}">
+                                    <img src="{{ image.image.url }}" class="card-img-top img-fluid" alt="Affected person image" style="height: 180px; object-fit: cover;">
+                                </a>
+                                <div class="card-footer p-2">
+                                    <small class="text-muted">
+                                        {% if image.created_at %}
+                                        {{ image.created_at|date:"M d, Y" }}
+                                        {% else %}
+                                        Date not specified
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center py-4">
+                            <i class="fas fa-images fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No images available</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Lightbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+            alwaysShowClose: true,
+            showArrows: true,
+            wrapping: false
+        });
+    });
+</script>
+
+<style>
+    /* Custom styles for the gallery */
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .img-fluid {
+        border-radius: 4px 4px 0 0;
+    }
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #eee;
+    }
+</style>
+{% endblock %}

@@ -48,4 +48,4 @@ class User(AbstractUser):
     
     @property
     def get_user_type(self):
-        return dict(USER_TYPE_CHOICES).get(self.user_type, "Unknown")
+        return dict(USER_TYPE_CHOICES).get(self.user_type, "Admin")
