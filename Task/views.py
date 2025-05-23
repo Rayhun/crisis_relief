@@ -12,6 +12,8 @@ import json
 import re
 from django.views.decorators.http import require_POST
 from .forms import TaskCommentForms, VolunteersRequestForm
+from utils import send_notification_email
+from core.models import User
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -53,7 +55,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         context['volunteers_request_form'] = VolunteersRequestForm(instance=self.object.relief_request)
         context['volunteers_request'] = VolunteersRequest.objects.filter(
             task=self.object
-        ).order_by('-created_at')
+        ).order_by('-created_at').last()
         context['comments'] = TaskComment.objects.filter(
             task=self.object
         ).order_by('-created_at')
@@ -130,26 +132,22 @@ def update_checklist(request, task_id):
         for item in data['checklist_items']:
             text_content = item['text'].strip()
 
-            # Pattern for unchecked item with HTML tags
             unchecked_pattern = re.compile(
                 r'<p>- \[ \]' + re.escape(text_content) + r'<\/p>|'
                 r'- \[ \]' + re.escape(text_content) + r'<br>'
             )
 
-            # Pattern for checked item with HTML tags
             checked_pattern = re.compile(
                 r'<p>- \[x\]' + re.escape(text_content) + r'<\/p>|'
                 r'- \[x\]' + re.escape(text_content) + r'<br>'
             )
 
             if item['checked']:
-                # Replace all variants of unchecked items
                 description = unchecked_pattern.sub(
                     f'<p>- [x]{text_content}</p>',
                     description
                 )
             else:
-                # Replace all variants of checked items
                 description = checked_pattern.sub(
                     f'<p>- [ ]{text_content}</p>',
                     description
@@ -159,7 +157,7 @@ def update_checklist(request, task_id):
         task.save()
         return JsonResponse({
             'status': 'success',
-            'new_description': description  # For debugging
+            'new_description': description
         })
 
     return JsonResponse({'status': 'error'}, status=400)
@@ -177,3 +175,35 @@ def update_task_status(request, task_id, new_status):
         return JsonResponse({'success': False, 'error': 'Invalid status'})
     except Task.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Task not found'})
+
+
+def volunteers_request_view(request, pk):
+    try:
+        task = Task.objects.get(pk=pk)
+        form = VolunteersRequestForm(request.POST or None)
+        if form.is_valid():
+            volunteers_request = form.save(commit=False)
+            volunteers_request.task = task
+            volunteers_request.user = request.user
+            volunteers_request.save()
+            user_list = list(User.objects.filter(
+                is_active=True,
+                is_superuser=True,
+            ).values_list('email', flat=True))
+
+            send_notification_email(
+                to_email=user_list,
+                heading=f"{request.user.user_type} Relief Request",
+                message=f"You get a new relief requested from {request.user.user_type}, please check it out.", # noqa
+                subject=f"{request.user.user_type} Request Notification"
+            )
+
+            return redirect(
+                'task:task_detail', pk=task.user.pk, task_id=task.pk
+            )
+        else:
+            return redirect(
+                'task:task_detail', pk=task.user.pk, task_id=task.pk
+            )
+    except Task.DoesNotExist:
+        return redirect('task:task_list', pk=request.user.pk)

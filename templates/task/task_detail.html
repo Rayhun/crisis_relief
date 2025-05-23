@@ -145,7 +145,13 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <h5 class="text-info text-uppercase mt-3"> {{ request.user.get_user_type }} Request</h5>
+                                            <h5 class="text-info text-uppercase mt-3"> {{ request.user.get_user_type }} Request 
+                                                <span class="badge
+                                                {% if volunteers_request.status == 'pending' %}badge-warning
+                                                {% elif volunteers_request.status == 'in_progress' %}badge-primary
+                                                {% else %}badge-danger{% endif %}
+                                                ">{{ volunteers_request.get_volunteer_requests_status }}</span>
+                                            </h5>
                                             {% if volunteers_request %}
                                             <p><strong>Title:</strong> {{ volunteers_request.title }}</p>
                                             <p><strong>Location:</strong> {{ volunteers_request.location }}</p>
@@ -154,8 +160,8 @@
                                             <div class="border p-2">
                                                 {{ volunteers_request.description|render_checklist:task.id|safe }}
                                             </div>
-                                            {% else %}
-                                            <form action="" method="post">
+                                            {% elif request.user == task.user %}
+                                            <form action="{% url 'task:volunteers_request' task.pk %}" method="post">
                                                 {% csrf_token %}
                                                 {{ volunteers_request_form|crispy }}
 

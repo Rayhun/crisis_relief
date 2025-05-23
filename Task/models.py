@@ -50,13 +50,25 @@ class Task(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.ticket_id:
-            super().save(*args, **kwargs)  # First save to generate pk
+        is_new = not self.pk
+        if is_new:
+            super().save(*args, **kwargs)  # Save to generate pk
             self.ticket_id = f"TASK-{self.pk}"
-            kwargs['force_insert'] = False  # Prevent duplicate insert
-            super().save(*args, **kwargs)  # Save again to update ticket_id
+            super().save(update_fields=['ticket_id'])
         else:
             super().save(*args, **kwargs)
+
+        if self.relief_request:
+            new_status = None
+            if self.status == 'closed':
+                new_status = 'closed'
+            elif self.status == 'in_progress':
+                new_status = 'in_progress'
+            elif self.status == 'open':
+                new_status = 'in_progress'
+            if new_status and self.relief_request.status != new_status:
+                self.relief_request.status = new_status
+                self.relief_request.save(update_fields=['status'])
 
     @property
     def get_priority_color(self):

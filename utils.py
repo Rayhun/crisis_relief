@@ -20,7 +20,7 @@ def send_notification_email(to_email, heading, message, subject=""):
         subject=subject,
         body=text_content,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[to_email]
+        to=to_email if isinstance(to_email, list) else [to_email]
     )
     email.attach_alternative(html_content, "text/html")
     email.send()

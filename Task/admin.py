@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Task, Tag, TaskComment
+from .models import Task, Tag, TaskComment, VolunteersRequest
 
 
 @admin.register(Task)
@@ -27,3 +27,10 @@ class TaskCommentAdmin(admin.ModelAdmin):
     search_fields = ('comment',)
     ordering = ('-created_at',)
     date_hierarchy = 'created_at'
+
+
+@admin.register(VolunteersRequest)
+class VolunteersRequestAdmin(admin.ModelAdmin):
+    list_display = ('title', 'location', 'category', 'quantity', 'created_at')
+    list_filter = ('category',)
+    search_fields = ('title', )
