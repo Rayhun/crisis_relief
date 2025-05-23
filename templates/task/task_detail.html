@@ -33,6 +33,9 @@
                             <a class="nav-link" id="updates-tab" data-toggle="tab" href="#updates" role="tab">Updates</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" id="rrfa-tab" data-toggle="tab" href="#rrfa" role="tab">Relief Request</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" id="media-tab" data-toggle="tab" href="#media" role="tab">Task Note</a>
                         </li>
                     </ul>
@@ -121,6 +124,46 @@
                                         
                                         <button type="submit" class="btn btn-primary">Update Task</button>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Media Tab -->
+                        <div class="tab-pane fade" id="rrfa" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="text-info text-uppercase">Relief Request for <u><b>{{ task.relief_request.event }}</b></u></h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="text-info text-uppercase mt-3">Affected People</h5>
+                                            <p><strong>Title:</strong> {{ task.relief_request.title }}</p>
+                                            <p><strong>Location:</strong> {{ task.relief_request.location }}</p>
+                                            <p><strong>Category:</strong>{{ task.relief_request.category }}</p>
+                                            <p><strong>Description:</strong></p>
+                                            <div class="border p-2">
+                                                {{ task.relief_request.description|render_checklist:task.id|safe }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="text-info text-uppercase mt-3"> {{ request.user.get_user_type }} Request</h5>
+                                            {% if volunteers_request %}
+                                            <p><strong>Title:</strong> {{ volunteers_request.title }}</p>
+                                            <p><strong>Location:</strong> {{ volunteers_request.location }}</p>
+                                            <p><strong>Category:</strong>{{ volunteers_request.category }}</p>
+                                            <p><strong>Description:</strong></p>
+                                            <div class="border p-2">
+                                                {{ volunteers_request.description|render_checklist:task.id|safe }}
+                                            </div>
+                                            {% else %}
+                                            <form action="" method="post">
+                                                {% csrf_token %}
+                                                {{ volunteers_request_form|crispy }}
+
+                                                <button type="submit" class="btn btn-primary mt-2">Submit Request</button>
+                                            </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 from django.db import models
 from core.models import User
 from Affected.models.event import STATUS_CHOICES
+from Affected.models.relief import CATEGORY_CHOICES
 from Affected.models import ReliefRequest
 
 
@@ -80,3 +81,31 @@ class TaskComment(models.Model):
     comment = models.TextField()
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')  # for reply support
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class VolunteersRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approve', 'Approve'),
+        ('reject', 'Reject'),
+    ]
+    task = models.ForeignKey(
+        Task, on_delete=models.CASCADE, related_name='volunteers_requests',
+        null=True
+    )
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    quantity = models.PositiveIntegerField(default=1)
+    location = models.CharField(max_length=100)
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='pending'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def get_volunteer_requests_status(self):
+        return dict(self.STATUS_CHOICES).get(self.status, "Unknown")

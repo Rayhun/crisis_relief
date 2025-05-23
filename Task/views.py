@@ -3,7 +3,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView,
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Task, TaskComment, Tag
+from .models import Task, TaskComment, Tag, VolunteersRequest
 from Affected.models import ReliefRequest
 from core.models import User
 from django.http import JsonResponse
@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import re
 from django.views.decorators.http import require_POST
-from .forms import TaskCommentForms
+from .forms import TaskCommentForms, VolunteersRequestForm
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -47,13 +47,18 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.object = self.get_object()
-        print(self.object, "*" * 10)
         context['all_tags'] = Tag.objects.all()
         context['user'] = self.request.user
         context['form'] = TaskCommentForms()
-        context['comments'] = TaskComment.objects.filter(task=self.object).order_by('-created_at')
+        context['volunteers_request_form'] = VolunteersRequestForm(instance=self.object.relief_request)
+        context['volunteers_request'] = VolunteersRequest.objects.filter(
+            task=self.object
+        ).order_by('-created_at')
+        context['comments'] = TaskComment.objects.filter(
+            task=self.object
+        ).order_by('-created_at')
         return context
-    
+
 
 class TaskCommentView(LoginRequiredMixin, CreateView):
     model = TaskComment
