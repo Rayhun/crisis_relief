@@ -5,31 +5,30 @@ Here's the updated `README.md` file based on your project structure:
 
 **CrisisReliefApp** is a Django-based platform designed to assist with organizing and delivering aid to individuals affected by crises. It supports multiple modules like Donors, Affected Individuals, and Task Management. This document guides you through setting up and running the project locally.
 
----
+```
 
 ## 📁 Project Structure
 
-```
-
+```plaintext
 CrisisReliefApp/
 ├── Affected/               # App for managing affected individuals
 ├── Donors/                 # App for donor management
 ├── Task/                   # Task assignment and tracking
 ├── core/                   # Common utilities or base configurations
-├── crisis\_relief/          # Main Django project settings
+├── crisis_relief/          # Main Django project settings
 ├── templates/              # HTML templates for rendering views
 ├── static/                 # Static files (CSS, JS, images)
 ├── media/                  # Media files (uploads)
 ├── example/
 │   └── env                 # Sample .env file (copy this to root)
 ├── .env                    # Environment variables (create this file)
-├── address.html            # Standalone HTML (possibly a landing/contact page)
 ├── db.sqlite3              # SQLite database file
 ├── manage.py               # Django's command-line utility
 ├── requirements.txt        # Python dependencies
 ├── utils.py                # Project utility functions
 ├── .gitignore              # Git ignored files
 └── venv/                   # Virtual environment (excluded from version control)
+
 
 ````
 
