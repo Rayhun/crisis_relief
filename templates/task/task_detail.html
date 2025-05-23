@@ -148,7 +148,7 @@
                                             <h5 class="text-info text-uppercase mt-3"> {{ request.user.get_user_type }} Request 
                                                 <span class="badge
                                                 {% if volunteers_request.status == 'pending' %}badge-warning
-                                                {% elif volunteers_request.status == 'in_progress' %}badge-primary
+                                                {% elif volunteers_request.status == 'approve' %}badge-success
                                                 {% else %}badge-danger{% endif %}
                                                 ">{{ volunteers_request.get_volunteer_requests_status }}</span>
                                             </h5>

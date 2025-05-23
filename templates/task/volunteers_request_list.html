@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+{% load static checklist_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="card-title">Volunteers Request List</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Title</th>
+                        <th>Volunteer Name</th>
+                        <th>Phone Number</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v_request in volunteers_requests %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ v_request.title }}</td>
+                        <td>{{ v_request.task.user.get_full_name }}</td>
+                        <td>{{ v_request.task.user.phone_number }}</td>
+                        <td>{% if v_request.status == 'pending' %}Pending{% else %}Approved{% endif %}</td>
+                        <td>
+                            {% if v_request.status == 'pending' %}
+                            <a href="{% url 'task:volunteers_request_approve' v_request.pk %}" class="btn btn-success">Approve</a>
+                            <a href="{% url 'task:volunteers_request_reject' v_request.pk %}" class="btn btn-danger">Reject</a>
+                            {% endif %}
+                            <a href="{% url 'task:volunteers_request_detail' v_request.pk %}" class="btn btn-info">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

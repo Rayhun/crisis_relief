@@ -207,3 +207,43 @@ def volunteers_request_view(request, pk):
             )
     except Task.DoesNotExist:
         return redirect('task:task_list', pk=request.user.pk)
+
+
+class VolunteersRequestListView(LoginRequiredMixin, ListView):
+    model = VolunteersRequest
+    template_name = 'task/volunteers_request_list.html'
+    context_object_name = 'volunteers_requests'
+    ordering = ['-created_at']
+
+
+def volunteers_request_approve(request, pk):
+    try:
+        volunteers_request = VolunteersRequest.objects.get(pk=pk)
+        volunteers_request.status = 'approve'
+        volunteers_request.save()
+        return redirect('task:volunteers_request_list')
+    except VolunteersRequest.DoesNotExist:
+        return redirect('task:volunteers_request_list')
+    except Exception as e:
+        print(e)
+        return redirect('task:volunteers_request_list')
+
+
+def volunteers_request_reject(request, pk):
+    try:
+        volunteers_request = VolunteersRequest.objects.get(pk=pk)
+        volunteers_request.status = 'reject'
+        volunteers_request.save()
+        return redirect('task:volunteers_request_list')
+    except VolunteersRequest.DoesNotExist:
+        return redirect('task:volunteers_request_list')
+    except Exception as e:
+        print(e)
+        return redirect('task:volunteers_request_list')
+
+
+class VolunteersRequestDetailView(LoginRequiredMixin, DetailView):
+    model = VolunteersRequest
+    template_name = 'task/volunteers_request_detail.html'
+    context_object_name = 'volunteers_request'
+    pk_url_kwarg = 'pk'
