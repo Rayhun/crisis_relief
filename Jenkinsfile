@@ -11,7 +11,6 @@ pipeline {
     }
 
     stages {
-
         stage('Update Codebase') {
             steps {
                 sh '''
