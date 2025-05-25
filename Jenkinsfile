@@ -14,7 +14,7 @@ pipeline {
         stage('Clone Repo') {
             steps {
                 git branch: 'main',
-                    url: 'git@github.com:Rayhun/crisis_relief.git',
+                    url: 'https://github.com/Rayhun/crisis_relief.git',
                     credentialsId: 'c936b724-36bd-49a8-a46a-ea2fd030daa1'
             }
         }
