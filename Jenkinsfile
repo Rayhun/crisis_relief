@@ -16,8 +16,7 @@ pipeline {
             steps {
                 sh '''
                     cd /opt/crisis_relief
-                    git fetch origin
-                    git reset --hard origin/main
+                    git pull
                 '''
             }
         }
