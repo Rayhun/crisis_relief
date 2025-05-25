@@ -7,24 +7,15 @@ pipeline {
     }
 
     triggers {
-        githubPush()  // Enables auto-deploy from GitHub webhook
+        githubPush()
     }
 
     stages {
-        stage('Clone Repo') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Rayhun/crisis_relief.git',
-                    credentialsId: 'c936b724-36bd-49a8-a46a-ea2fd030daa1'
-            }
-        }
-
         stage('Install Requirements') {
             steps {
                 sh """
                 cd ${PROJECT_DIR}
-                source ${VENV_PATH}
-                pip install -r requirements.txt
+                bash -c "source ${VENV_PATH} && pip install -r requirements.txt"
                 """
             }
         }
@@ -33,9 +24,7 @@ pipeline {
             steps {
                 sh """
                 cd ${PROJECT_DIR}
-                source ${VENV_PATH}
-                python manage.py migrate
-                python manage.py collectstatic --noinput
+                bash -c "source ${VENV_PATH} && python manage.py migrate && python manage.py collectstatic --noinput"
                 """
             }
         }
