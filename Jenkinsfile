@@ -11,6 +11,17 @@ pipeline {
     }
 
     stages {
+
+        stage('Update Codebase') {
+            steps {
+                sh '''
+                    cd /opt/crisis_relief
+                    git fetch origin
+                    git reset --hard origin/main
+                '''
+            }
+        }
+
         stage('Install Requirements') {
             steps {
                 sh """
