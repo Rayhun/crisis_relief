@@ -135,28 +135,31 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 mb-3">
-                            <a href="" class="btn btn-primary btn-block">
-                                <i class="fas fa-plus mr-2"></i>Add Organization
+                            <a href="{% url 'core:affected_people_images' %}" class="btn btn-primary btn-block">
+                                <i class="fas fa-images mr-2"></i>View Gallery
                             </a>
                         </div>
                         <div class="col-md-6 col-sm-12 mb-3">
-                            <a href="" class="btn btn-secondary btn-block">
-                                <i class="fas fa-user-plus mr-2"></i>Add Volunteer
+                            <a href="{% url 'core:albania_map' %}" class="btn btn-secondary btn-block">
+                                <!-- view maps -->
+                                <i class="fas fa-map-marked-alt mr-2"></i>View Maps
                             </a>
                         </div>
                         <div class="col-md-6 col-sm-12 mb-3">
-                            <a href="" class="btn btn-success btn-block">
-                                <i class="fas fa-hand-holding-usd mr-2"></i>Record Donation
+                            <a href="{% url 'donate:donation_page' %}" class="btn btn-success btn-block">
+                                <!-- money donate -->
+                                <i class="fas fa-donate mr-2"></i>Donate Money
                             </a>
                         </div>
                         <div class="col-md-6 col-sm-12 mb-3">
-                            <a href="" class="btn btn-danger btn-block">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>Add Affected
+                            <a href="{% url 'donate:goods_donation_list' %}" class="btn btn-info btn-block">
+                                <!-- goods donate -->
+                                <i class="fas fa-boxes mr-2"></i>Donate Goods
                             </a>
                         </div>
                         <div class="col-md-12 col-sm-12">
-                            <a href="" class="btn btn-info btn-block">
-                                <i class="fas fa-calendar-plus mr-2"></i>Create New Event
+                            <a href="{% url 'affected:event_list' %}" class="btn btn-info btn-block">
+                                <i class="fas fa-calendar-plus mr-2"></i> View Event
                             </a>
                         </div>
                     </div>

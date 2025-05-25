@@ -10,7 +10,7 @@ urlpatterns = [
          name='albania_map'),
     path('login/', auth.CustomLoginView.as_view(), name='login'),
     path('signup/', auth.SignupView.as_view(), name='signup'),
-
+    path('logout/', auth.logout_view, name='logout'),
     path('user/list/', user.UserListView.as_view(), name='user_list'),
     path('profile/<int:pk>/', user.UserProfileView.as_view(),
          name='user_profile'),
