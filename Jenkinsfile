@@ -31,7 +31,9 @@ pipeline {
 
         stage('Restart Gunicorn') {
             steps {
-                sh 'sudo systemctl restart crisis_relief'
+                sh '''
+                    sudo systemctl restart crisis_relief
+                '''
             }
         }
     }
