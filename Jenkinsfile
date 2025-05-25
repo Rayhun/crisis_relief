@@ -15,6 +15,7 @@ pipeline {
         stage('Update Codebase') {
             steps {
                 sh '''
+                    git config --global --add safe.directory /opt/crisis_relief
                     cd /opt/crisis_relief
                     git pull
                 '''
