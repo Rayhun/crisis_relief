@@ -15,9 +15,9 @@ pipeline {
         stage('Update Codebase') {
             steps {
                 sh '''
-                    echo \$PASS | sudo -S git config --global --add safe.directory /opt/crisis_relief
+                    git config --global --add safe.directory /opt/crisis_relief
                     cd /opt/crisis_relief
-                    echo \$PASS | sudo -S git pull
+                    git pull
                 '''
             }
         }
