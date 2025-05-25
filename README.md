@@ -140,4 +140,3 @@ http://127.0.0.1:8000/admin/
 * Uploaded media (images, documents) will be stored in the `media/` folder.
 * Utility functions can be added to `utils.py`.
 
----
