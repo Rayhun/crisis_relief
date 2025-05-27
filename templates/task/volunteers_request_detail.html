@@ -1,0 +1,82 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-8">
+            <h3 class="card-title">Volunteers Relief Request Detail</h3>
+        </div>
+        <div class="col-md-4 text-right">
+            {% if volunteers_request.status == 'pending' %}
+            <a href="{% url 'task:volunteers_request_approve' volunteers_request.pk %}" class="btn btn-success">Approve</a>
+            <a href="{% url 'task:volunteers_request_reject' volunteers_request.pk %}" class="btn btn-danger">Reject</a>
+            {% endif %}
+        </div>
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ volunteers_request.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-info text-uppercase">Crisis Info</h4>
+                            <hr>
+                            <p><strong>Event:</strong> {{ volunteers_request.task.relief_request.event.title }}</p>
+                            <p><strong>Crisis Location:</strong> {{ volunteers_request.task.relief_request.event.location }}</p>
+                            <p><strong>Date:</strong> {{ volunteers_request.task.relief_request.event.date }}</p>
+                            <p><strong>Radius:</strong> {{ volunteers_request.task.relief_request.event.radius }}</p>
+                            <p><strong>Affected People:</strong> {{ volunteers_request.task.relief_request.event.affected_people }}</p>
+                            <hr>
+                            <h4 class="text-info text-uppercase">Affected People Info</h4>
+                            <hr>
+                            <p><strong>Relief Type:</strong> {{ volunteers_request.task.relief_request.category }}</p>
+                            <p><strong>Quantity:</strong> {{ volunteers_request.task.relief_request.quantity }}</p>
+                            <p><strong>Requested By:</strong> {{ volunteers_request.task.relief_request.user }}</p>
+                            <p><strong>Contact Number:</strong> {{ volunteers_request.task.relief_request.user.phone_number }}</p>
+                            <p><strong>Address:</strong> {{ volunteers_request.task.relief_request.user.address }}</p>
+                            <p><strong>Status:</strong>
+                                {% if volunteers_request.task.relief_request.status == 'open' %}
+                                <span class="badge badge-success">Open</span>
+                                {% elif volunteers_request.task.relief_request.status == 'closed' %}
+                                <span class="badge badge-danger">Closed</span>
+                                {% elif volunteers_request.task.relief_request.status == 'in_progress' %}
+                                <span class="badge badge-warning">In Progress</span>
+                                {% else %}
+                                <span class="badge badge-secondary">Unknown</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Description:</strong> {{ volunteers_request.task.relief_request.description|safe }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-info text-uppercase">Volunteers Info</h4>
+                            <hr>
+                            <p><strong>Full Name:</strong> {{ volunteers_request.task.user.get_full_name }}</p>
+                            <p><strong>Email:</strong> {{ volunteers_request.task.user.email }}</p>
+                            <p><strong>Contract Number:</strong> {{ volunteers_request.task.user.phone_number }}</p>
+                            <p><strong>Skills:</strong> {{ volunteers_request.task.user.skills }}</p>
+                            <p><strong>Date of Join</strong> {{ volunteers_request.task.user.date_joined }}</p>
+                            <hr>
+                            <h4 class="text-info text-uppercase">Volunteers Request Info</h4>
+                            <hr>
+                            <p><b>Task ID:</b>{{ volunteers_request.task.ticket_id }}</p>
+                            <p><b>Request Title:</b>{{ volunteers_request.title }}</p>
+                            <p><b>Category:</b>{{ volunteers_request.category }}</p>
+                            <p><b>Location:</b>{{ volunteers_request.location }}</p>
+                            <p><b>Quantity:</b>{{ volunteers_request.quantity }}</p>
+                            <p><b>Status:</b>{{ volunteers_request.status }}</p>
+                            <p><b>Request Time:</b>{{ volunteers_request.created_at }}</p>
+                            <p><b>Description:</b>{{ volunteers_request.description|safe }}</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'task:volunteers_request_list' %}" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from core.models import User
 from Affected.models.event import STATUS_CHOICES
+from Affected.models.relief import CATEGORY_CHOICES
 from Affected.models import ReliefRequest
 
 
@@ -49,13 +50,25 @@ class Task(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.ticket_id:
-            super().save(*args, **kwargs)  # First save to generate pk
+        is_new = not self.pk
+        if is_new:
+            super().save(*args, **kwargs)  # Save to generate pk
             self.ticket_id = f"TASK-{self.pk}"
-            kwargs['force_insert'] = False  # Prevent duplicate insert
-            super().save(*args, **kwargs)  # Save again to update ticket_id
+            super().save(update_fields=['ticket_id'])
         else:
             super().save(*args, **kwargs)
+
+        if self.relief_request:
+            new_status = None
+            if self.status == 'closed':
+                new_status = 'closed'
+            elif self.status == 'in_progress':
+                new_status = 'in_progress'
+            elif self.status == 'open':
+                new_status = 'in_progress'
+            if new_status and self.relief_request.status != new_status:
+                self.relief_request.status = new_status
+                self.relief_request.save(update_fields=['status'])
 
     @property
     def get_priority_color(self):
@@ -80,3 +93,31 @@ class TaskComment(models.Model):
     comment = models.TextField()
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')  # for reply support
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class VolunteersRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approve', 'Approve'),
+        ('reject', 'Reject'),
+    ]
+    task = models.ForeignKey(
+        Task, on_delete=models.CASCADE, related_name='volunteers_requests',
+        null=True
+    )
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    quantity = models.PositiveIntegerField(default=1)
+    location = models.CharField(max_length=100)
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='pending'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def get_volunteer_requests_status(self):
+        return dict(self.STATUS_CHOICES).get(self.status, "Unknown")

@@ -57,6 +57,9 @@ class Event(models.Model):
 
 class AffectedPeopleImages(models.Model):
     """ Affected people images model """
+    event_type = models.CharField(
+        max_length=20, choices=EVENT_TYPE_CHOICES, default='flood'
+    )
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='affected_people_images/')
     description = models.TextField()

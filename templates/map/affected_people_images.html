@@ -21,7 +21,7 @@
                     <div class="row">
                         {% for image in affected_images %}
                         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4">
-                            <div class="card">
+                            <div class="card card-small">
                                 <a href="{{ image.image.url }}" data-toggle="lightbox" data-gallery="affected-gallery" data-title="{% if image.title %}{{ image.title }}{% else %}Affected Person{% endif %}">
                                     <img src="{{ image.image.url }}" class="card-img-top img-fluid" alt="Affected person image" style="height: 180px; object-fit: cover;">
                                 </a>
@@ -64,10 +64,10 @@
 
 <style>
     /* Custom styles for the gallery */
-    .card {
+    .card-small {
         transition: transform 0.2s;
     }
-    .card:hover {
+    .card-small:hover {
         transform: scale(1.02);
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }

@@ -38,17 +38,45 @@
                     </p>
                 </a>
             </li>
+
+            {% if request.user.is_superuser %}
+            <li class="nav-item {% if '/affected/relief_request/' in request.path or '/task/volunteers_request/' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if '/affected/relief_request/' in request.path or '/task/volunteers_request/' in request.path %}active{% endif %}">
+                    <i class="nav-icon fas fa-users"></i>
+                  <p>
+                    Relief Request
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{% url 'affected:relief_request_list' %}" class="nav-link {% if '/affected/relief_request/' in request.path %}active{% endif %}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Affected People</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'task:volunteers_request_list' %}" class="nav-link {% if '/task/volunteers_request/' in request.path %}active{% endif %}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Volunteers</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {% else %}
             <li class="nav-item">
-                <a href="{% url 'affected:relief_request_list' %}" class="nav-link">
+                <a href="{% url 'affected:relief_request_list' %}" class="nav-link {% if '/affected/relief_request/' in request.path %}active{% endif %}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
                         Relief Request
                     </p>
                 </a>
             </li>
+            {% endif %}
+            
             {% if request.user.is_superuser %}
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <li class="nav-item {% if '/core/user_list/' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if '/core/user_list/' in request.path %}active{% endif %}">
                     <i class="nav-icon fas fa-columns"></i>
                   <p>
                     Kanban Board
@@ -57,13 +85,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{% url 'core:user_list' %}?q=org" class="nav-link">
+                        <a href="{% url 'core:user_list' %}?q=org" class="nav-link {% if request.path == '/core/user_list/' and 'q=org' in request.GET.urlencode %}active{% endif %}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Organization</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'core:user_list' %}?q=volunteers" class="nav-link">
+                        <a href="{% url 'core:user_list' %}?q=volunteers" class="nav-link {% if request.path == '/core/user_list/' and 'q=volunteers' in request.GET.urlencode %}active{% endif %}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Volunteers</p>
                         </a>
@@ -72,7 +100,7 @@
             </li>
             {% elif not request.user.user_type == 'affected' %}
             <li class="nav-item">
-                <a href="{% url 'task:task_list' request.user.pk %}" class="nav-link">
+                <a href="{% url 'task:task_list' request.user.pk %}" class="nav-link {% if '/task/task_list/' in request.path %}active{% endif %}">
                     <i class="nav-icon fas fa-columns"></i>
                     <p>
                         Kanban Board
@@ -81,8 +109,8 @@
             </li>
             {% endif %}
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <li class="nav-item {% if '/donate/donation_page/' in request.path or '/donate/goods_donation/' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if '/donate/donation_page/' in request.path or '/donate/goods_donation/' in request.path %}active{% endif %}">
                     <i class="nav-icon fas fa-dollar-sign"></i>
                   <p>
                     Donation
@@ -91,13 +119,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{% url 'donate:donation_page' %}" class="nav-link">
+                        <a href="{% url 'donate:donation_page' %}" class="nav-link {% if '/donate/donate/' in request.path %}active{% endif %}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Money</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'donate:goods_donation_list' %}" class="nav-link">
+                        <a href="{% url 'donate:goods_donation_list' %}" class="nav-link {% if '/donate/goods-donation-list/' in request.path %}active{% endif %}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Goods</p>
                         </a>
@@ -105,7 +133,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="{% url 'core:affected_people_images' %}" class="nav-link">
+                <a href="{% url 'core:affected_people_images' %}" class="nav-link {% if '/affected-people-images/' in request.path %}active{% endif %}">
                     <i class="nav-icon far fa-image"></i>
                     <p>
                         Gallery
