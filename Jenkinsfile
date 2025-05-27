@@ -5,9 +5,11 @@ pipeline {
         PROJECT_DIR = '/opt/crisis_relief'
         VENV_PATH = "${PROJECT_DIR}/venv/bin/activate"
     }
+    
     triggers {
         githubPush()
     }
+
     stages {
         stage('Deploy') {
             steps {
