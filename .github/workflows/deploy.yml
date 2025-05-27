@@ -18,10 +18,13 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Debug SSH Agent
+      run: ssh-add -l
+
     - name: Deploy via SSH
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          cd /opt/test
+          cd /opt/crisis_relief
           git pull origin main
           source venv/bin/activate
           pip install -r requirements.txt
